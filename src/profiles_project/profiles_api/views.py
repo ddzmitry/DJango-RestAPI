@@ -7,10 +7,14 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.views import Response
 from rest_framework import status
+# import token
+from rest_framework.authentication import TokenAuthentication
 # import serializer
 from . import serializers
 # Create your views here.
 from . import models
+# import premissions
+from . import permissions
 
 #  here we will create our views for API
 class HelloApiView(APIView):
@@ -104,3 +108,9 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserProfileSerializer
     # get all users
     queryset = models.UserProfile.objects.all()
+    # adding token authenication 
+    #  make sure to add commas because it makes is immutable so it can't be changed
+    authentication_classes = (TokenAuthentication,)
+    permissions_classes = (permissions.UpdateOwnProfile,)
+
+
