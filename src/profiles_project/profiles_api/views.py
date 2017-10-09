@@ -36,3 +36,18 @@ class HelloApiView(APIView):
             return Response({'message':message})
         else:
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self,request, pk=None):
+        """Patch request, only updates fields provided in the request"""
+        # update differences 
+        return Response({'method':'patch'})
+
+    def put(self,request, pk=None):
+        """Handels updating an object"""
+        return Response({'method':'put'})
+        
+
+    def delete(self,request,pk=None):
+        """Deletes the object"""
+
+        return Response({'method':'delete'})
