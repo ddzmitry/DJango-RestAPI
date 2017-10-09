@@ -15,6 +15,8 @@ from . import serializers
 from . import models
 # import premissions
 from . import permissions
+#  FOR SEARCH 
+from rest_framework import filters
 
 #  here we will create our views for API
 class HelloApiView(APIView):
@@ -112,5 +114,8 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     #  make sure to add commas because it makes is immutable so it can't be changed
     authentication_classes = (TokenAuthentication,)
     permissions_classes = (permissions.UpdateOwnProfile,)
+    # adding filter as tuples
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('name','email',)
 
 
