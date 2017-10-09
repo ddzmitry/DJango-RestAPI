@@ -8,6 +8,10 @@ from . import views
 router = DefaultRouter()
 # register new url 
 router.register('hello-viewset',views.HelloViewSet, base_name ='hello-viewset')
+# register UserProfiles
+router.register('profile', views.UserProfileViewSet)
+
+
 # describe url
 urlpatterns = [
     # as_view is very importannt to be able to send actual JSON object
