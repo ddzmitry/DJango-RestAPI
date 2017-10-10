@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.views import Response
 from rest_framework import status
 # for login funcitonality
-from rest_framework.authtoken.serializer import AuthTokenSerializer
+from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 
 # import token
@@ -118,10 +118,19 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     # adding token authenication 
     #  make sure to add commas because it makes is immutable so it can't be changed
     authentication_classes = (TokenAuthentication,)
-    permissions_classes = (permissions.UpdateOwnProfile,)
+    permission_classes = (permissions.UpdateOwnProfile,)
     # adding filter as tuples
     # This how it adds
     filter_backends = (filters.SearchFilter,)
-    search_fields = ('name','email',)
+    search_fields = ('name', 'email',)
 
 
+class LoginViewSet(viewsets.ViewSet):
+    """Check Email and password and returns an auth token"""
+    serializer_class = AuthTokenSerializer
+    # create function
+    def create(self,request):
+        """Use the ObtainAuthToken APIView to validate and create token!"""
+        # create login
+        # will return token type 3d19f55acaccb093b9a382cf09ff9027b7a101cb
+        return ObtainAuthToken().post(request)

@@ -10,8 +10,8 @@ router = DefaultRouter()
 router.register('hello-viewset',views.HelloViewSet, base_name ='hello-viewset')
 # register UserProfiles
 router.register('profile', views.UserProfileViewSet)
-
-
+# reguster login rooter
+router.register('login', views.LoginViewSet, base_name='login')
 # describe url
 urlpatterns = [
     # as_view is very importannt to be able to send actual JSON object
