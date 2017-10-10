@@ -7,6 +7,10 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.views import Response
 from rest_framework import status
+# for login funcitonality
+from rest_framework.authtoken.serializer import AuthTokenSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
+
 # import token
 from rest_framework.authentication import TokenAuthentication
 # import serializer
@@ -17,6 +21,7 @@ from . import models
 from . import permissions
 #  FOR SEARCH 
 from rest_framework import filters
+
 
 #  here we will create our views for API
 class HelloApiView(APIView):
@@ -115,6 +120,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     permissions_classes = (permissions.UpdateOwnProfile,)
     # adding filter as tuples
+    # This how it adds
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name','email',)
 
