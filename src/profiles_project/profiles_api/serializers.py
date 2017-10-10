@@ -30,3 +30,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+# profile feed Serializer
+class ProfileFeedItemSerializer(serializers.ModelSerializer):
+    """A serializer for profile feed items."""
+
+    class Meta:
+        # we specify wich model we are using for serializer
+        model = models.ProfileFeed
+        # provide fields that serializer is going to affect 
+        fields = ('id', 'user_profile','status_text','created_on')
+        # specify that only user that created the field can update it
+        extra_kwargs = {'user_profile':{'read_only':True}}

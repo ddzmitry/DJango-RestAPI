@@ -10,9 +10,14 @@ from rest_framework import status
 # for login funcitonality
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
-
+# for be able to update
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 # import token
 from rest_framework.authentication import TokenAuthentication
+# to be able to see ontent only for authenicated usrs
+from rest_framework.permissions import IsAuthenticated
+
+
 # import serializer
 from . import serializers
 # Create your views here.
@@ -134,3 +139,25 @@ class LoginViewSet(viewsets.ViewSet):
         # create login
         # will return token type 3d19f55acaccb093b9a382cf09ff9027b7a101cb
         return ObtainAuthToken().post(request)
+# create user profile feed view
+
+class UserProfileFeedViewSet(viewsets.ModelViewSet):
+    """Handels Creating,reading and updating feed"""
+    # add authenication
+    authentication_classes = (TokenAuthentication,)
+    # add serializer
+    serializer_class = serializers.ProfileFeedItemSerializer
+    # queryset we pull feeds from models
+    queryset = models.ProfileFeed.objects.all()
+    # permissions to allow to update or modify if they are logged in
+    # 
+    # permission_classes = (permissions.PostOwnStatus, IsAuthenticatedOrReadOnly)
+    # and here to be able to see content ONLY for autenicated users
+    permission_classes = (permissions.PostOwnStatus, IsAuthenticated)
+    
+
+    """Adding functionality to view"""
+    def perform_create(self, serializer):
+        """Sets the user profile to the logged in user."""
+
+        serializer.save(user_profile=self.request.user)

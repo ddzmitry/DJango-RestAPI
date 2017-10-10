@@ -13,3 +13,15 @@ class UpdateOwnProfile(permissions.BasePermission):
             # check if user autenicated
         return obj.id == request.user.id
 
+# add permissions for userProfile feed
+class PostOwnStatus(permissions.BasePermission):
+    """Allow users to update their own status."""
+
+    def has_object_permission(self,request,view,obj):
+        """Checks the user is trying to update their own status."""
+        # check if user can update
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        # here we use model field to set specification on permission
+        # if it is true that will let update
+        return obj.user_profile.id == request.user.id
